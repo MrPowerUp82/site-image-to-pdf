@@ -24,7 +24,7 @@ def upload(request):
 
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         files=[]
-        a = os.path.join(BASE_DIR, 'media\\upload')
+        a = os.path.join(BASE_DIR, r'media\upload')
         now = datetime.datetime.now()
         date= now.strftime('%d-%m-%Y-%H-%M-%S')
         path= os.listdir(a)
@@ -32,7 +32,7 @@ def upload(request):
         pdf=FPDF()
         for file in path:
             if ".jpg" in file or ".jpeg" in file or ".png" in file:
-                dirr='{}\{}'.format(a,file)
+                dirr=r'{}\{}'.format(a,file)
                 files.append(file)
                 dirs.append(dirr)
 
@@ -44,7 +44,7 @@ def upload(request):
         path=os.listdir(BASE_DIR)
         for p in path:
             if ".pdf" in p:
-                file_pdf="media\\upload\\{}".format(p)
+                file_pdf=r"media\upload\{}".format(p)
                 shutil.move(p,a)
         for d in dirs:
             os.remove(d)
