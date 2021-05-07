@@ -25,7 +25,7 @@ SECRET_KEY = '2dd-_a6kr*yf!v+nkvs$)3ubo%-1v$^t87_iv9fvnfbwn4h1j('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8.tcp.ngrok.io','127.0.0.1']
+ALLOWED_HOSTS = ['8.tcp.ngrok.io','127.0.0.1','mrpowerup82-site-image-to-pdf-9749.zeet.app']
 
 
 # Application definition
