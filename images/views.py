@@ -11,7 +11,8 @@ import shutil
 
 
 def home(request):
-    return render(request,'home.html')
+    files=[]
+    return render(request,'home.html',{'files':files})
 
 # Create your views here.
 def upload(request):
@@ -24,7 +25,7 @@ def upload(request):
 
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         files=[]
-        a = os.path.join(BASE_DIR, r'media\upload')
+        a = os.path.join(BASE_DIR, r'media/upload')
         now = datetime.datetime.now()
         date= now.strftime('%d-%m-%Y-%H-%M-%S')
         path= os.listdir(a)
@@ -32,9 +33,12 @@ def upload(request):
         pdf=FPDF()
         for file in path:
             if ".jpg" in file or ".jpeg" in file or ".png" in file:
-                dirr=r'{}\{}'.format(a,file)
+                dirr=r'{}/{}'.format(a,file)
                 files.append(file)
                 dirs.append(dirr)
+
+        if files == []:
+            return render(request,'Not.html')
 
         for d in dirs:
             pdf.add_page()
@@ -44,13 +48,19 @@ def upload(request):
         path=os.listdir(BASE_DIR)
         for p in path:
             if ".pdf" in p:
-                file_pdf=r"media\upload\{}".format(p)
+                file_pdf=r"media/upload/{}".format(p)
                 shutil.move(p,a)
-        for d in dirs:
-            os.remove(d)
 
+        path=os.listdir(a)
+
+        for p in path:
+            if ".pdf" in p:
+                continue
+            else:
+                pasta=r"{}/{}".format(a,p)
+                os.remove(pasta)
         
 
-    return render(request,'Sucess.html',{'file_pdf':file_pdf})
+    return render(request,'home.html',{'file_pdf':file_pdf, 'files':files})
 
 

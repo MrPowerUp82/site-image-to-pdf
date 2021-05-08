@@ -37,6 +37,13 @@
             </div> 
             </form>
         </div>
+        {%if files%}
+        <div class="ui" style="display: flex; justify-content: center;">
+            <a type="submit" class="ui primary button" href="{{file_pdf}}">
+                    Baixar
+            </a>
+        </div> 
+        {%endif%}
     </div>
 </body>
 </html>
