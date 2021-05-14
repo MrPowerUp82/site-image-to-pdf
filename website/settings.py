@@ -26,7 +26,7 @@ SECRET_KEY = '2dd-_a6kr*yf!v+nkvs$)3ubo%-1v$^t87_iv9fvnfbwn4h1j('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','img-two-pdf.herokuapp.com']
 #username-projeto.zeet.app
 
 # Application definition
