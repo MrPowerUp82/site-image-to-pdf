@@ -8,6 +8,7 @@ from os import walk
 from fpdf import FPDF
 import datetime
 import shutil
+from PIL import Image
 
 
 def home(request):
@@ -41,8 +42,11 @@ def upload(request):
             return render(request,'Not.html')
 
         for d in dirs:
+            im = Image.open(d)
+            width, height = im.size
             pdf.add_page()
             pdf.image(d, 0, 0, 210, 297)
+            im.close()
 
         pdf.output("temp-{}.pdf".format(date), "F")
         path=os.listdir(BASE_DIR)
