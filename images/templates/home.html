@@ -1,3 +1,5 @@
+{%load static%}
+{%load unicorn%}
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,53 +7,98 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>IMAGENS PARA PDF</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js"></script>
-    <script data-ad-client="ca-pub-6418284637802271" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <link rel='stylesheet' href="{% static 'css/style.css' %}" />
+    <script src="https://kit.fontawesome.com/b853a65915.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="ui">
-        <div class="ui secondary attached menu">
-            <a href="{%url 'home'%}" class="item" style="font-size:20px; font-weight:bold;">
-              Home
-            </a>
+    <header class="header">
+        <div>
+            <h2>Home</h2>
         </div>
-        <div class="ui hidden divider"></div>
-    </div>
-    <div class="ui container">
-        <div class="ui placeholder segment">
-            <div class="ui placeholder segment">
-                <div class="ui icon header">
-                  <i class="pdf file outline icon"></i>
-                  IMAGENS PARA PDF
-                </div>
-                    <form action="{%url 'upload'%}" method='post' enctype="multipart/form-data">{% csrf_token %}
-                    <div class="ui" style="text-align:center">
-                        <input required name="images" type="file" multiple>
-                    </div>
+        <div></div>
+    </header>
+    <div class="container">
+        <div class="bloco">
+            <form id="form" action="{%url 'home'%}" method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="icon_label">
+                <i class="fa-solid fa-images"></i>
             </div>
-            <div class="ui primary button">
-                <button type="submit" class="ui primary button">
-                    Enviar
-                  </button>
-            </div> 
+            <input hidden multiple required type="file" name="images" id="file_" />
+            <div id="output" class="output_files" style="max-height: 250px;">    
+                <ul>
+                    {% if files %}
+                    {% for f in files %}
+                    <li>{{f}}</li>
+                    {% endfor %}
+                    {% else %}
+                    <li>Nenhum arquivo selecionado ainda.</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <br/>
+            <span onclick="uploadClick()" class="button">
+                Upload
+            </span>
             </form>
+            <br/>
+            <button onclick="submitForm()" class="button">
+                Enviar
+            </button>
+            <div id="spinner" style="display:none;">
+                <br/>
+                <center>
+                    <div class="" id="box-spinner">
+                        <i class="fa fa-circle-o-notch spinner text-xl" style="font-size:50px"></i>
+                    </div>
+                </center>
+                <br/>
+            </div>
         </div>
-        {%if files%}
-        <div class="ui" style="display: flex; justify-content: center;">
-            <a type="submit" class="ui primary button" href="{{file_pdf}}">
-                    Baixar
-            </a>
-        </div> 
-        {%endif%}
+        {% csrf_token %}
+        {%unicorn 'images'%}
     </div>
+    <script>
+        let inputUpload = document.querySelector('#file_')
+        let files = []
+        let loop
+        let output = document.querySelector('#output').children[0]
+        let form = document.querySelector('#form')
+        let spinner = document.querySelector('#spinner')
+
+        function submitForm(){
+            spinner.style.display = 'block'
+            form.submit()
+        }
+
+        function uploadClick() {
+            inputUpload.value=""
+            inputUpload.click();
+            loop = setInterval(function () {
+                if(inputUpload.files.length > 0) {
+                    files = []
+                    for (file in inputUpload.files){
+                        if (inputUpload.files[file].name != undefined && inputUpload.files[file].__proto__ == new File(['test'],'test').__proto__){
+                            files.push(inputUpload.files[file].name)
+                        }
+                    }
+                    output.innerHTML = ''
+                    let items = []
+                    files.map(function (file) {
+                        items.push(`<li>${file}</li>`)
+                    })
+                    output.innerHTML = items.join('\n')
+                    clearInterval(loop)
+                }
+            }, 500)
+    }
+    </script>
 </body>
-<div style="position: fixed;
+<footer style="position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   background-color: black;
   color: white;
-  text-align: center;">Created by Gustavo Henrique da Silva Tramonte</div>
+  text-align: center;">Created by Gustavo Henrique da Silva Tramonte</footer>
 </html>

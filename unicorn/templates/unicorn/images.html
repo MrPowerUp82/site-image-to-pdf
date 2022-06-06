@@ -1,0 +1,13 @@
+<div>
+    <br/>
+    {% if path %}
+    <a href="{{path}}" target="_blank">
+        <button class="button">
+            Download
+        </button>
+    </a>
+    {% endif %}
+    {% if msg %}
+    <h3 style="color:red;">{{msg}}</h3>
+    {% endif %}
+</div>
