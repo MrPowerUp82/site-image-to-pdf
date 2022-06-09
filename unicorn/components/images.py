@@ -1,4 +1,4 @@
-from django_unicorn.components import UnicornView
+from django_unicorn.components import UnicornView, PollUpdate
 from images.models import Images
 from django.conf import settings
 import datetime
@@ -8,11 +8,14 @@ from PIL import Image
 import shutil
 from django.shortcuts import redirect, render
 from uuid import uuid4
+from django.utils.timezone import now
 
 
 class ImagesView(UnicornView):
     path = ''
     msg = ''
+    current_time = now()
+
     
     def __init__(self,*args,**kwargs):
         super().__init__(**kwargs)
@@ -79,5 +82,3 @@ class ImagesView(UnicornView):
                     os.remove(pasta)
 
             self.path = '/'+file_pdf
-
-            
