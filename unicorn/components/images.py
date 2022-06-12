@@ -14,9 +14,7 @@ from django.utils.timezone import now
 class ImagesView(UnicornView):
     path = ''
     msg = ''
-    current_time = now()
 
-    
     def __init__(self,*args,**kwargs):
         super().__init__(**kwargs)
         self.path = ''
